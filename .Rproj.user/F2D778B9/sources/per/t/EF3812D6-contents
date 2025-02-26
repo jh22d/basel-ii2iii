@@ -130,7 +130,7 @@ gdp_plot+cpi_plot
 ## Import the indcies in the main stock exchanges in the countries we have
 
 ```{r, echo=FALSE}
-stock_idx<-read_excel("stock.xlsx")
+stock_idx<-read_excel("data/stock.xlsx")
 
 exchange_country <- data.frame(
   exchange = c('SPTSX', 'UKX', 'DAX', 'SMI', 'NKY', 'SPX'),

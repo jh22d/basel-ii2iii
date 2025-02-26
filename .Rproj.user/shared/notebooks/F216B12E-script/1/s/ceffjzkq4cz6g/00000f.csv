@@ -1,0 +1,4 @@
+"0","write.csv(df_both,""data/clean_data_for_stat.csv"")
+"
+"2","Error in is.data.frame(x) : object 'df_both' not found
+"

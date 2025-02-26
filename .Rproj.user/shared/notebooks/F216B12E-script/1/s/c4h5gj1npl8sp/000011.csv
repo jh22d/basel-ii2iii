@@ -1,0 +1,7 @@
+"0","gdp_plot <- ggplot(gdp_macro, aes(year, gdp, color=country)) + geom_line() + "
+"0","  labs(x='Year',y='GDP per capita',title = 'Real GDP')"
+"0",""
+"0","cpi_plot <- ggplot(cpi_macro, aes(year, cpi, color=country)) + geom_line() + "
+"0","    labs(x='Year',y='Consumer price index (2010 = 100)',title = 'CPI')"
+"0",""
+"0","gdp_plot+cpi_plot"
