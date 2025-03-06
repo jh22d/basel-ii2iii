@@ -1,3 +1,0 @@
-"0","stock_idx<-read_excel(""data/stock.xlsx"")"
-"2","Error: `path` does not exist: ‘data/stock.xlsx’
-"

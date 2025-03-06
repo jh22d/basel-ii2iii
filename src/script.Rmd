@@ -5,10 +5,6 @@ date: '2025-02-24'
 output: pdf_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 
 ```{r, include = FALSE}
 library(readxl)
@@ -20,11 +16,18 @@ library(ggplot2)
 library(scales)
 library(patchwork)  # For arranging plots
 library(lubridate) #year
+library(knitr)
 library(here)
 ```
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(root.dir = "/Users/jinghan/Desktop/econ490/term paper/econ490 data prep/")
+getwd()
+```
 
-```{r, echo=FALSE}
+
+```{r}
 # Let's start by assigning key variables
 policy_change_year=2016
 countries= c('CA','US','JP', 'GB',#uk
@@ -38,24 +41,23 @@ end_year='2020'
 
 ## Import bank-wise data in the test group and the control group from Bloomberg and clean the data
 ```{r, echo=FALSE}
-setwd(here())
 
 # Import test group bank-wise data
-rbc_raw <- read_excel("data/rbc.xlsx")%>%mutate(bank='rbc')
-td_raw <- read_excel("data/td.xlsx")%>%mutate(bank='td')
-bmo_raw <- read_excel("data/bmo.xlsx")%>%mutate(bank='bmo')
-cibc_raw <- read_excel("data/cibc.xlsx")%>%mutate(bank='cibc')
-bns_raw <- read_excel("data/bns.xlsx")%>%mutate(bank='bns')
-nbc_raw <- read_excel("data/nbc.xlsx")%>%mutate(bank='nbc')
+rbc_raw <- read_excel("../data/raw/rbc.xlsx")%>%mutate(bank='rbc')
+td_raw <- read_excel("../data/raw/td.xlsx")%>%mutate(bank='td')
+bmo_raw <- read_excel("../data/raw/bmo.xlsx")%>%mutate(bank='bmo')
+cibc_raw <- read_excel("../data/raw/cibc.xlsx")%>%mutate(bank='cibc')
+bns_raw <- read_excel("../data/raw/bns.xlsx")%>%mutate(bank='bns')
+nbc_raw <- read_excel("../data/raw/nbc.xlsx")%>%mutate(bank='nbc')
 # test_raw <- list(rbc_raw,td_raw,bmo_raw,cibc_raw,bns_raw,nbc_raw)
 
 # Import control group bank-wise data
-ubs_raw <- read_excel("data/ubs.xlsx")%>%mutate(bank='ubs',country='United States')
-db_raw <- read_excel("data/deutsche_bank.xlsx")%>%mutate(bank='db',country='Germany')
-barclays_raw <- read_excel("data/barclays.xlsx")%>%mutate(bank='barclays',country='United Kingdom')
-cs_raw <- read_excel("data/credit_suisse.xlsx")%>%mutate(bank='cs',country='Switzerland')
-mu_raw <- read_excel("data/mitsubishi_ufj.xlsx")%>%mutate(bank='mu',country='Japan')
-sumitomo_raw <- read_excel("data/sumitomo.xlsx")%>%mutate(bank='sumitomo',country='Germany')
+ubs_raw <- read_excel("../data/raw/ubs.xlsx")%>%mutate(bank='ubs',country='United States')
+db_raw <- read_excel("../data/raw/deutsche_bank.xlsx")%>%mutate(bank='db',country='Germany')
+barclays_raw <- read_excel("../data/raw/barclays.xlsx")%>%mutate(bank='barclays',country='United Kingdom')
+cs_raw <- read_excel("../data/raw/credit_suisse.xlsx")%>%mutate(bank='cs',country='Switzerland')
+mu_raw <- read_excel("../data/raw/mitsubishi_ufj.xlsx")%>%mutate(bank='mu',country='Japan')
+sumitomo_raw <- read_excel("../data/raw/sumitomo.xlsx")%>%mutate(bank='sumitomo',country='Germany')
 # control_raw <- list(ubs_raw,db_raw,barclays_raw,cs_raw,mu_raw,sumitomo_raw)
 
 # Apply the new names to all dataframes
@@ -94,7 +96,7 @@ head(control_df,3)
 ```
 
 ## Import Marco Data from World Bank, including GDP and CPI
-```{r,echo=FALSE}
+```{r}
 gdp_macro <- WDI(indicator='NY.GDP.PCAP.KD', 
              country=countries,
              start=start_year,
@@ -117,7 +119,7 @@ summary(macro)
 
 ```
 ## Let's visualize the macro data
-```{r, echo=FALSE}
+```{r}
 gdp_plot <- ggplot(gdp_macro, aes(year, gdp, color=country)) + geom_line() + 
   labs(x='Year',y='GDP per capita',title = 'Real GDP')
 
@@ -129,8 +131,8 @@ gdp_plot+cpi_plot
 
 ## Import the indcies in the main stock exchanges in the countries we have
 
-```{r, echo=FALSE}
-stock_idx<-read_excel("data/stock.xlsx")
+```{r}
+stock_idx<-read_excel("../data/raw/stock.xlsx")
 
 exchange_country <- data.frame(
   exchange = c('SPTSX', 'UKX', 'DAX', 'SMI', 'NKY', 'SPX'),
@@ -147,7 +149,7 @@ exchange_country_index <- stock_idx%>%
 summary(exchange_country_index)
 ```
 ## Integrate bank-wise, macro data & stock index
-```{r,echo=FALSE}
+```{r}
 df_both <- test_df%>%rbind(control_df)%>%
   filter(as.Date(date) < as.Date("2020-03-31"))%>%
   mutate(year=year(date), 
@@ -160,8 +162,9 @@ df_both <- test_df%>%rbind(control_df)%>%
 
 summary(df_both)
 ```
+
 ```{r}
-write.csv(df_both,"data/clean_data_for_stat.csv")
+write.csv(df_both,"../data/processed/clean_data_stata.csv")
 ```
 
 

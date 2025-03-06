@@ -1,6 +1,0 @@
-"0","# Combine the banks in control group "
-"0","control_df_v0 <- rbind(ubs_raw,db_raw,barclays_raw,cs_raw,mu_raw,sumitomo_raw) "
-"0","colnames(control_df_v0) <- append(colnames(control_df_v0)[1:4],'country')"
-"0","control_df <- control_df_v0 %>% mutate(test=0)"
-"0",""
-"0","head(control_df,3)"

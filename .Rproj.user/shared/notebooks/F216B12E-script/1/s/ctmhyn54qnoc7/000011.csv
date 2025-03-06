@@ -1,5 +1,0 @@
-"0","# Combine the banks in test group "
-"0","test_df <- rbind(rbc_raw,td_raw,bmo_raw,cibc_raw,bns_raw,nbc_raw) %>%"
-"0","  mutate(country = 'Canada', test=1) "
-"0","  "
-"0","head(test_df,3)"
