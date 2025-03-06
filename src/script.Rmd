@@ -164,9 +164,20 @@ summary(df_both)
 ```
 
 ```{r}
-write.csv(df_both,"../data/processed/clean_data_stata.csv")
+# write.csv(df_both,"../data/processed/clean_data_stata.csv")
 ```
-
+## Check the ROE movement in Canada
+```{r}
+roe_can_bank <- test_df%>%group_by(date,bank)%>%
+  summarise(mean_roe = mean(roe, na.rm = TRUE), .groups = "drop")
+roe_can_bank_plt <- ggplot(roe_can_bank,
+                    aes(x = date, y = mean_roe, color = as.factor(bank))) +
+  geom_line(size = 1) + 
+  labs(x = "Date", y = "ROE", title = "ROE Movement in All Canadian Banks") +
+  theme_minimal() + 
+  theme(legend.title = element_blank(), plot.title = element_text(hjust = 0.5))
+roe_can_bank_plt
+```
 
 ## Check the ROE movement in each couuntry
 ```{r,echo=FALSE, warning=FALSE, message=FALSE}
@@ -180,13 +191,6 @@ roe_by_country_plt <- ggplot(roe_by_country,
   theme(legend.title = element_blank(), plot.title = element_text(hjust = 0.5))
 roe_by_country_plt
 ```
-```{r}
-```
-
-
-```{r}
-```
-
 
 
 ## Check ROE movement in the test and control groups
