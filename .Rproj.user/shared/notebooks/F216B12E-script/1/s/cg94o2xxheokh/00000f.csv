@@ -1,8 +1,0 @@
-"0","# Let's start by assigning key variables"
-"0","policy_change_year=2016"
-"0","countries= c('CA','US','JP', 'GB',#uk"
-"0","                       'CH', #Switzerland"
-"0","                       'DE') #Germany"
-"0","start_year='2015'"
-"0","end_year='2020'"
-"0",""

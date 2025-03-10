@@ -29,12 +29,12 @@ getwd()
 
 ```{r}
 # Let's start by assigning key variables
-policy_change_year=2016
+post_year=2016
 countries= c('CA','US','JP', 'GB',#uk
                        'CH', #Switzerland
                        'DE') #Germany
 start_year='2015'
-end_year='2020'
+end_year='2018'
 
 ```
 
@@ -80,7 +80,7 @@ colnames(sumitomo_raw) <- new_col_names
 ```{r, echo=FALSE}
 # Combine the banks in test group 
 test_df <- rbind(rbc_raw,td_raw,bmo_raw,cibc_raw,bns_raw,nbc_raw) %>%
-  mutate(country = 'Canada', test=1) 
+  mutate(country = 'Canada', T=1) 
   
 head(test_df,3)
 ```
@@ -90,7 +90,7 @@ head(test_df,3)
 # Combine the banks in control group 
 control_df_v0 <- rbind(ubs_raw,db_raw,barclays_raw,cs_raw,mu_raw,sumitomo_raw) 
 colnames(control_df_v0) <- append(colnames(control_df_v0)[1:4],'country')
-control_df <- control_df_v0 %>% mutate(test=0)
+control_df <- control_df_v0 %>% mutate(T=0)
 
 head(control_df,3)
 ```
@@ -151,20 +151,21 @@ summary(exchange_country_index)
 ## Integrate bank-wise, macro data & stock index
 ```{r}
 df_both <- test_df%>%rbind(control_df)%>%
-  filter(as.Date(date) < as.Date("2020-03-31"))%>%
+  filter(as.Date(date) < as.Date(paste0(end_year,"-03-31")))%>%
   mutate(year=year(date), 
          month=month(date),
-         policy_change=ifelse(year >= policy_change_year, 1, 0),
-         did=policy_change*test) %>%
+         yr_qtr = paste0(year, "q", quarter(date)),
+         post=ifelse(year >= post_year, 1, 0),
+         TP=post*T) %>%
   left_join(macro, by=c('year','country'))%>%
   left_join(exchange_country_index, by=c('year','month','country'))%>%
   select(-year,-month)
 
-summary(df_both)
+head(df_both,3)
 ```
 
 ```{r}
-# write.csv(df_both,"../data/processed/clean_data_stata.csv")
+write.csv(df_both,"../data/processed/clean_data_stata.csv")
 ```
 ## Check the ROE movement in Canada
 ```{r}
@@ -195,10 +196,10 @@ roe_by_country_plt
 
 ## Check ROE movement in the test and control groups
 ```{r, echo=FALSE}
-roe_mean <- df_both%>%group_by(date,test)%>%
+roe_mean <- df_both%>%group_by(date,T)%>%
   summarise(mean_roe = mean(roe, na.rm = TRUE), .groups = "drop")
 
-roe_mean_plot <- ggplot(roe_mean, aes(x = date, y = mean_roe, color = as.factor(test))) +
+roe_mean_plot <- ggplot(roe_mean, aes(x = date, y = mean_roe, color = as.factor(T))) +
   geom_line(size = 1) + 
   labs(x = "Date", y = "Mean ROE", title = "ROE Movement in the Test and Control Group") +
   theme_minimal() + 
@@ -209,7 +210,7 @@ roe_mean_plot
 
 ## Estimating the DID estimator
 ```{r}
-didreg = lm(roe ~ test + policy_change + did, data = df_both)
+didreg = lm(roe ~ T + post + TP, data = df_both)
 summary(didreg)
 ```
 The coefficient for ‘did’ is the differences-in-differences
