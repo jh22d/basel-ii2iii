@@ -18,4 +18,4 @@ Policy:  Tier 1 capital 4.5% -> 6% of RWA from Basel II to Basel III.
 ** next step**
 - add more variables on the bank level: CR (equity per asset), size/leverage ratio, EBITS (Earnings before interest and tax), RIR (real interest rate)
 - collect data in 2011-2018 (beyond 2014Q1-2018Q1)
-- cluster: D-SIB, G-SIB, smaller
+- cluster: D-SIB, G-SIB https://www.bis.org/bcbs/gsib/index.htm
