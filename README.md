@@ -15,7 +15,10 @@ Policy:  Tier 1 capital 4.5% -> 6% of RWA from Basel II to Basel III.
 | _cons       | 279.2408    | 121.7997  | 2.29  | 0.024 | 77.19644 to 481.2851      |
 ------------------------------------------------------------------------------------
 
-** next step**
+**next step**
 - add more variables on the bank level: CR (equity per asset), size/leverage ratio, EBITS (Earnings before interest and tax), RIR (real interest rate)
 - collect data in 2011-2018 (beyond 2014Q1-2018Q1)
-- cluster: D-SIB-US[https://en.wikipedia.org/wiki/List_of_systemically_important_banks#Americas], (G-SIB)[https://www.bis.org/bcbs/gsib/index.htm] https://www.bis.org/bcbs/gsib/index.htm
+- cluster:
+  D-SIB_US: https://en.wikipedia.org/wiki/List_of_systemically_important_banks#Americas,
+  D-SIB_CA: https://www.osfi-bsif.gc.ca/en/supervision/financial-institutions/banks/systemically-important-banks
+  G-SIB: https://www.bis.org/bcbs/gsib/index.htm] https://www.bis.org/bcbs/gsib/index.htm
