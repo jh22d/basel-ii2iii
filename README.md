@@ -1,8 +1,8 @@
 # basel-ii2iii
 
+Policy:  Tier 1 capital 4.5% -> 6% of RWA from Basel II to Basel III.
 
-
-
+**current fe + did output**
 
 ------------------------------------------------------------------------------------
 | Variable    | Coefficient | Std. Err. | t     | P>abs(t) | 90% Conf. Interval      |
@@ -14,3 +14,9 @@
 | stock_idx   | 0.0169595   | 0.0705168 | 0.24  | 0.810 | -0.1000154 to 0.1339345   |
 | _cons       | 279.2408    | 121.7997  | 2.29  | 0.024 | 77.19644 to 481.2851      |
 ------------------------------------------------------------------------------------
+
+** next step**
+- add more variables on the bank level: leverage ratio.
+- collect data in 2011-2018 (beyond 2014Q1-2018Q1)
+- cluster: D-SIB, G-SIB, smaller
+- 
